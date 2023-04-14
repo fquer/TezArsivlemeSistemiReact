@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import InputText from "../components/InputText";
 
 export default function ThesisUpload() {
     const navigate = useNavigate();
@@ -16,13 +17,18 @@ export default function ThesisUpload() {
     const [thesis, setThesis] = useState({
         thesisTitle: "",
         thesisTopic: "",
-        thesisTypeId: "6439662e7a88c576f8bef561",
-        userId: localStorage.getItem('userID')
+        thesisLanguage: "",
+        thesisGroup: "",
+        thesisUniversity: "",
+        thesisInstitute: "",
+        thesisMainField: "",
+        thesisChildrenField: "",
+        thesisTypeId: "6439662e7a88c576f8bef561"
     })
 
     const [file, setFile] = useState()
 
-    const { thesisFile, thesisTitle, thesisTopic } = thesis
+    const { thesisFile, thesisTitle, thesisTopic, thesisLanguage, thesisGroup, thesisUniversity, thesisInstitute, thesisMainField, thesisChildrenField } = thesis
 
     const onInputChange = (e) => {
         setThesis({ ...thesis, [e.target.name]: e.target.value })
@@ -37,10 +43,11 @@ export default function ThesisUpload() {
         
         const formData = new FormData();
         for (let key in thesis) {
+            console.log(thesis[key])
             formData.append(key, thesis[key]);
         }
         formData.append("thesisFile", file)
-
+        formData.append('userId', localStorage.getItem('userID'))
         await axios.post("/thesis/add", formData).then(
             function (response) {
                 console.log('response : ', response)
@@ -65,14 +72,16 @@ export default function ThesisUpload() {
                             <label htmlFor="fileInput" className="form-label">Dosya Seçiniz</label>
                             <input type="file" className="form-control" id="fileInput" value={thesisFile} name='thesisFile' onChange={(e) => handleFileInputChange(e)}/>
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="title" className="form-label">Tez Başlığı</label>
-                            <input type="text" className="form-control" id="title" value={thesisTitle} name='thesisTitle' onChange={(e) => onInputChange(e)}/>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="topic" className="form-label">Tez Konusu</label>
-                            <input type="text" className="form-control" id="topic" value={thesisTopic} name='thesisTopic' onChange={(e) => onInputChange(e)}/>
-                        </div>
+
+                        <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange}/>
+                        <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange}/>
+                        <InputText inputLabel = "Tez Dili" inputName = "thesisLanguage" inputValue = {thesisLanguage} inputOnChange = {onInputChange}/>
+                        <InputText inputLabel = "Tez Grubu" inputName = "thesisGroup" inputValue = {thesisGroup} inputOnChange = {onInputChange}/>
+                        <InputText inputLabel = "Üniversite" inputName = "thesisUniversity" inputValue = {thesisUniversity} inputOnChange = {onInputChange}/>
+                        <InputText inputLabel = "Enstitü" inputName = "thesisInstitute" inputValue = {thesisInstitute} inputOnChange = {onInputChange}/>
+                        <InputText inputLabel = "Ana Bilim Dalı" inputName = "thesisMainField" inputValue = {thesisMainField} inputOnChange = {onInputChange}/>
+                        <InputText inputLabel = "Alt Bilim Dalı" inputName = "thesisChildrenField" inputValue = {thesisChildrenField} inputOnChange = {onInputChange}/>
+
                         <div className="mb-3">
                             <label htmlFor="type" className="form-label">Tez Türü</label>
                             <select className="form-select" id='type' name='thesisTypeId' onChange={(e) => onInputChange(e)}>
