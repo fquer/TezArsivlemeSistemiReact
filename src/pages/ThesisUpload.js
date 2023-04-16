@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Spinner } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import InputText from "../components/InputText";
+import InputSelect from "../components/InputSelect";
 
 export default function ThesisUpload() {
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const userID = localStorage.getItem('userID')
-        console.log(userID)
-        if (userID === "") {
-            navigate('/');
-        }
-    }, [navigate])
-
     const [thesis, setThesis] = useState({
         thesisTitle: "",
         thesisTopic: "",
@@ -23,17 +15,60 @@ export default function ThesisUpload() {
         thesisInstitute: "",
         thesisMainField: "",
         thesisChildrenField: "",
-        thesisTypeId: "6439662e7a88c576f8bef561"
+        thesisType: ""
     })
 
-    const [file, setFile] = useState()
-
-    const { thesisFile, thesisTitle, thesisTopic, thesisLanguage, thesisGroup, thesisUniversity, thesisInstitute, thesisMainField, thesisChildrenField } = thesis
-
-    const onInputChange = (e) => {
-        setThesis({ ...thesis, [e.target.name]: e.target.value })
+    const thesisDetailDropdownsLabels = {
+        thesisUniversities: ["Üniversite", "thesisUniversity"],
+        thesisInstitutes: ["Enstitü", "thesisInstitute"],
+        thesisMainFields: ["Ana Bilim Dalı", "thesisMainField"],
+        thesisChildrenFields: ["Alt Bilim Dalı", "thesisChildrenField"],
+        thesisLanguages: ["Tez Dili", "thesisLanguage"],
+        thesisGroups: ["Grubu", "thesisGroup"],
+        thesisTypes: ["Tez Tipi", "thesisType"]
     }
 
+    const [thesisDetailDropdowns, setThesisDetailDropdowns] = useState([]);
+    function createThesisDetailDropdowns(data) {
+        const updatedThesis = { ...thesis };
+        const dropdowns = []
+        for (const key of Object.keys(thesisDetailDropdownsLabels)) {
+            updatedThesis[thesisDetailDropdownsLabels[key][1]] = data[key][0].id
+            dropdowns.push(<InputSelect inputData = {data[key]} inputName = {thesisDetailDropdownsLabels[key][1]} inputTitle = {thesisDetailDropdownsLabels[key][0]} inputOnChange = {onInputChange}/>)
+        }
+        setThesis(updatedThesis);
+        setThesisDetailDropdowns(dropdowns)
+        setIsLoading(false)
+    }
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        const userID = localStorage.getItem('userID')
+        if (userID === "") {
+            navigate('/');
+        }
+    }, [navigate])
+
+    const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        setIsLoading(true)
+        const fetchData = async () => {
+            const response = await axios.get("/thesisDetail/getAll")
+            console.log(response.data)
+            createThesisDetailDropdowns(response.data)
+        }
+        fetchData();
+    }, [])
+    
+    useEffect(() => {
+        console.log("Thesis updated:", thesis);
+    }, [thesis]);
+    
+    const onInputChange = (e) => {
+        setThesis(prevThesis => ({ ...prevThesis, [e.target.name]: e.target.value }))
+    }
+    
+    const [file, setFile] = useState()
     const handleFileInputChange = (e) => {
         setFile(e.target.files[0])
     };
@@ -43,7 +78,6 @@ export default function ThesisUpload() {
         
         const formData = new FormData();
         for (let key in thesis) {
-            console.log(thesis[key])
             formData.append(key, thesis[key]);
         }
         formData.append("thesisFile", file)
@@ -60,8 +94,16 @@ export default function ThesisUpload() {
 
     }
 
+    const { thesisTitle, thesisTopic } = thesis
     return (
         <div className="container">
+            {isLoading ? 
+            <div className="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
+                <div className="text-center">
+                    <Spinner animation="border" variant="primary" /> 
+                </div>
+            </div>
+            : 
             <div className="row">
                 <div className="col-md-6 mx-auto">
                     <div className='mb-5 mt-5'>
@@ -70,29 +112,16 @@ export default function ThesisUpload() {
                     <form onSubmit={(e) => onSumbit(e)}>
                         <div className="mb-3">
                             <label htmlFor="fileInput" className="form-label">Dosya Seçiniz</label>
-                            <input type="file" className="form-control" id="fileInput" value={thesisFile} name='thesisFile' onChange={(e) => handleFileInputChange(e)}/>
+                            <input type="file" className="form-control" id="fileInput" name='thesisFile' onChange={(e) => handleFileInputChange(e)}/>
                         </div>
-
                         <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange}/>
                         <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange}/>
-                        <InputText inputLabel = "Tez Dili" inputName = "thesisLanguage" inputValue = {thesisLanguage} inputOnChange = {onInputChange}/>
-                        <InputText inputLabel = "Tez Grubu" inputName = "thesisGroup" inputValue = {thesisGroup} inputOnChange = {onInputChange}/>
-                        <InputText inputLabel = "Üniversite" inputName = "thesisUniversity" inputValue = {thesisUniversity} inputOnChange = {onInputChange}/>
-                        <InputText inputLabel = "Enstitü" inputName = "thesisInstitute" inputValue = {thesisInstitute} inputOnChange = {onInputChange}/>
-                        <InputText inputLabel = "Ana Bilim Dalı" inputName = "thesisMainField" inputValue = {thesisMainField} inputOnChange = {onInputChange}/>
-                        <InputText inputLabel = "Alt Bilim Dalı" inputName = "thesisChildrenField" inputValue = {thesisChildrenField} inputOnChange = {onInputChange}/>
-
-                        <div className="mb-3">
-                            <label htmlFor="type" className="form-label">Tez Türü</label>
-                            <select className="form-select" id='type' name='thesisTypeId' onChange={(e) => onInputChange(e)}>
-                                <option value={'6439662e7a88c576f8bef561'}>Yüksek Lisans</option>
-                                <option value={'643966737a88c576f8bef562'}>Doktora</option>
-                            </select>
-                        </div>
+                        {thesisDetailDropdowns}
                         <button type="submit" className="btn btn-primary">Yükle</button>
                     </form>
                 </div>
             </div>
+            }
         </div>
     )
 }

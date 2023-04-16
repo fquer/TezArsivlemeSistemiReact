@@ -79,6 +79,9 @@ export default function Register() {
                             </select>
                         </div>
                         <button type="submit" className="btn btn-primary">Kayıt Ol!</button>
+                        <div className='mb-5 mt-5'>
+                            <span>Zaten üye misin? <a href="/login">Giriş Yap!</a></span>
+                        </div>
                     </form>
                 </div>
             </div>

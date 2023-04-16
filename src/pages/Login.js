@@ -59,6 +59,9 @@ export default function Login(props) {
                             <input type="password" className="form-control" id="password" value={userPassword} name='userPassword' onChange={(e) => onInputChange(e)}/>
                         </div>
                         <button type="submit" className="btn btn-primary">Giriş Yap</button>
+                        <div className='mb-5 mt-5'>
+                            <span>Üyeliğin yok mu ? <a href="/register">Üye Ol!</a></span>
+                        </div>
                     </form>
                 </div>
             </div>
