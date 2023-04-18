@@ -9,8 +9,6 @@ export default function Navbar(props) {
   useEffect(() => {
     setUserID(localStorage.getItem('userID'))
     setIsLoggedIn(props.isLoggedIn)
-    console.log('navbar ', userID)
-    console.log('navbar ', props)
   })
 
   function addProfileNavbar() {

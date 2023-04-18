@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,18 +23,22 @@ export default function Register() {
         setUser({ ...user, [e.target.name]: e.target.value })
     }
 
+    const navigate = useNavigate();
     const onSumbit = async (e) => {
         e.preventDefault();
         if (passwordsMatch) {
             await axios.post("/user/add", user).then(
                 function (response) {
-                    console.log('response : ', response)
                     if (response.status === 201) {
-                        // yonlendirme yap
-                        console.log('user olusturuldu.')
+                        navigate('/login');
+                    }
+                    else {
+                        alert('Kullanici olusturulamadi!')
                     }
                 }
-            )
+            ).catch( () => {
+                alert('Kullanici olusturulamadi!')
+            })
         }
         else {
             alert('Parolalar eşleşmiyor.')

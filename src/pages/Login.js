@@ -18,7 +18,6 @@ export default function Login(props) {
 
     useEffect(() => {
         const userID = localStorage.getItem('userID')
-        console.log(userID)
         if (userID !== "") {
             navigate('/');
         }
@@ -28,18 +27,19 @@ export default function Login(props) {
         e.preventDefault();
         await axios.post("/user/login", user).then(
             function (response) {
-                console.log('response : ', response)
                 if (response.status === 200) {
-                    // yonlendirme yap
-                    console.log('login olundu.')
-                    console.log(response.data)
-                    console.log('loginsss ', props)
                     props.setIsLoggedIn(true)
                     localStorage.setItem('userID', response.data.id)
-                    //navigate('/');
                 }
             }
-        )
+        ).catch((err) => {
+            if (err.response.status === 401) {
+                alert("Kullanici adi yada sifre hatali!")
+            }
+            else {
+                alert("Giris yapilamiyor!")
+            }
+        })
     }
 
     return (

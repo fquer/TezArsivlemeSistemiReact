@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -34,31 +34,37 @@ export default function ThesisUpload() {
         const dropdowns = []
         for (const key of Object.keys(thesisDetailDropdownsLabels)) {
             updatedThesis[thesisDetailDropdownsLabels[key][1]] = data[key][0].id
-            dropdowns.push(<InputSelect inputData = {data[key]} inputName = {thesisDetailDropdownsLabels[key][1]} inputTitle = {thesisDetailDropdownsLabels[key][0]} inputOnChange = {onInputChange}/>)
+            dropdowns.push(<InputSelect key={thesisDetailDropdownsLabels[key][1] + "Key"} inputData = {data[key]} inputName = {thesisDetailDropdownsLabels[key][1]} inputTitle = {thesisDetailDropdownsLabels[key][0]} inputOnChange = {onInputChange}/>)
         }
         setThesis(updatedThesis);
         setThesisDetailDropdowns(dropdowns)
         setIsLoading(false)
     }
 
+    const [canAccessPage, setCanAccessPage] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         const userID = localStorage.getItem('userID')
         if (userID === "") {
             navigate('/');
         }
+        else {
+            setCanAccessPage(true)
+        }
     }, [navigate])
 
-    const [isLoading, setIsLoading] = useState(false);
+    const isMountedRef = useRef(false);
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        setIsLoading(true)
-        const fetchData = async () => {
-            const response = await axios.get("/thesisDetail/getAll")
-            console.log(response.data)
-            createThesisDetailDropdowns(response.data)
+        if (!isMountedRef.current && canAccessPage) {
+            const fetchData = async () => {
+                const response = await axios.get("/thesisDetail/getAll")
+                createThesisDetailDropdowns(response.data)
+            }
+            fetchData();
+            isMountedRef.current = true;
         }
-        fetchData();
-    }, [])
+    }, [canAccessPage])
     
     useEffect(() => {
         console.log("Thesis updated:", thesis);
@@ -84,10 +90,9 @@ export default function ThesisUpload() {
         formData.append('userId', localStorage.getItem('userID'))
         await axios.post("/thesis/add", formData).then(
             function (response) {
-                console.log('response : ', response)
                 if (response.status === 200) {
                     // yonlendirme yap
-                    console.log('tez olusturuldu.')
+                    console.log('tez olusturuldu : ', response)
                 }
             }
         )
