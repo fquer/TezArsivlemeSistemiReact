@@ -51,6 +51,18 @@ export default function ThesisUser() {
         }
     }, [canAccessPage])
     
+    const deleteThesis = async (thesisId, index) => {
+        document.getElementById(index + "Loading").style.display = "block";
+        const response = await axios.delete("/thesis/" + thesisId)
+        console.log(response)
+        if (response.status === 200) {
+            document.getElementById(index).remove();
+        }
+        else {
+            alert("tez silinemedi!")
+        }
+    }
+
     return (
         <div>
             {isLoading ? 
@@ -62,11 +74,26 @@ export default function ThesisUser() {
             :
             <div className="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mt-3">
                 {theses.map((key, index) => (
-                    <div className="thesisCard card col m-3" key={index}>
-                        <img className="thesisPreview" src={key.thesisFile.previewImage}></img>
-                        <div className="card-body p-3">
-                            <h5 className="card-title">{key.thesisTitle}</h5>
-                            <p className="card-text">{key.thesisTopic}</p>
+                    <div className="thesisCard card col m-3 justify-content-between" key={index} id={index}>
+                        <a key={index} href={"/thesis/" + key.id} style={{textDecoration: "none", color: "inherit", height: "78%"}}>
+        
+                            <img className="thesisPreview" src={key.thesisFile.previewImage}></img>
+                            <div className="card-body pl-3 pr-3 pt-1 pb-0">
+                                <h5 className="card-title">{key.thesisTitle}</h5>
+                                <p className="card-text">{key.thesisTopic}</p>
+                            </div>
+                    
+                        </a>
+                        <div className=" d-flex">
+                            <div className="me-auto mt-2">
+                                <Spinner id={index + "Loading"} animation="border" variant="primary" style={{display: "none", width: "20px", height: "20px"}} /> 
+                            </div>
+                            <div className="">
+                                <button className="btn"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                            </div>
+                            <div className="">
+                                <button className="btn" onClick={() => {deleteThesis(key.id, index)}}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+                            </div>
                         </div>
                     </div>
                 ))}
