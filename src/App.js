@@ -23,8 +23,9 @@ function App() {
       <BrowserRouter>
       <Navbar isLoggedIn = {isLoggedIn}/>
         <Routes>
-          <Route exact path='//thesis/upload' Component={ThesisUpload}></Route>
-          <Route exact path='//thesis/mytheses' Component={ThesisUser}></Route>
+          <Route exact path='/thesis/edit/:id' Component={ThesisUpload}></Route>
+          <Route exact path='/thesis/upload' Component={ThesisUpload}></Route>
+          <Route exact path='/thesis/mytheses' Component={ThesisUser}></Route>
           <Route exact path='/register' Component={Register}></Route>
           <Route exact path='/login' Component={(props) => <Login {...props} setIsLoggedIn={ setIsLoggedIn } />}></Route>
           <Route exact path='/logout' Component={(props) => <Logout {...props} setIsLoggedIn={ setIsLoggedIn } />}></Route>

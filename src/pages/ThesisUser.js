@@ -62,6 +62,10 @@ export default function ThesisUser() {
             alert("tez silinemedi!")
         }
     }
+    
+    const editThesis = async (id) => {
+        navigate("/thesis/edit/" + id)
+    }
 
     return (
         <div>
@@ -89,7 +93,7 @@ export default function ThesisUser() {
                                 <Spinner id={index + "Loading"} animation="border" variant="primary" style={{display: "none", width: "20px", height: "20px"}} /> 
                             </div>
                             <div className="">
-                                <button className="btn"><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                <button className="btn" onClick={() => {editThesis(key.id)}}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                             </div>
                             <div className="">
                                 <button className="btn" onClick={() => {deleteThesis(key.id, index)}}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
