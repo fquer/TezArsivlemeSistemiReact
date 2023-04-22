@@ -7,3 +7,12 @@
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+.dropdown-item:hover {
+    background-color: #162d46 !important;
+}
+
+.nav-link, .navbar-brand, .dropdown-item {
+    color: #f7ffff !important;
+    font-weight: bold !important;
+}

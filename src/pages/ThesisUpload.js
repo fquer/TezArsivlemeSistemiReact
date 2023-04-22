@@ -37,7 +37,6 @@ export default function ThesisUpload() {
 
         const checkUserForThesis = async () => {
             if (id) {
-                console.log("girdi")
                 const response = await axios.get("/thesis/" + id)
                 updatedThesis["thesisTitle"] = response.data.thesisTitle
                 updatedThesis["thesisTopic"] = response.data.thesisTopic
@@ -49,12 +48,13 @@ export default function ThesisUpload() {
 
         for (const key of Object.keys(thesisDetailDropdownsLabels)) {
             updatedThesis[thesisDetailDropdownsLabels[key][1]] = data[key][0].id
-            dropdowns.push(<InputSelect key={thesisDetailDropdownsLabels[key][1] + "Key"}
+            dropdowns.push(<div className="col-4" key={thesisDetailDropdownsLabels[key][1] + "DivKey"}>
+                            <InputSelect key={thesisDetailDropdownsLabels[key][1] + "Key"}
                                         defaultValue = {editedThesisResponse ? editedThesisResponse[thesisDetailDropdownsLabels[key][1]].id : null}
                                         inputData = {data[key]}
                                         inputName = {thesisDetailDropdownsLabels[key][1]}
                                         inputTitle = {thesisDetailDropdownsLabels[key][0]}
-                                        inputOnChange = {onInputChange}/>)
+                                        inputOnChange = {onInputChange}/></div>)
         }
         
         setThesis(updatedThesis);
@@ -94,6 +94,20 @@ export default function ThesisUpload() {
     const onInputChange = (e) => {
         setThesis(prevThesis => ({ ...prevThesis, [e.target.name]: e.target.value }))
     }
+
+    const handleFileCheckbox = (e) => {
+        const fileLabel = document.getElementById("fileInputLabel")
+        const fileInput = document.getElementById("fileInput")
+
+        if (e.target.checked) {
+            fileLabel.innerHTML = "Dosya Seçiniz"
+            fileInput.disabled = false
+        }
+        else {
+            fileLabel.innerHTML = "Tez Dosyasını Değiştir"
+            fileInput.disabled = true
+        }
+    }
     
     const [file, setFile] = useState()
     const handleFileInputChange = (e) => {
@@ -110,11 +124,19 @@ export default function ThesisUpload() {
         for (let key in thesis) {
             formData.append(key, thesis[key]);
         }
-        formData.append("thesisFile", file)
         formData.append('userId', localStorage.getItem('userID'))
 
         if (id) {
-            await axios.put("/thesis/" + id, formData).then(
+            const fileCheckbox = document.getElementById("fileCheckbox")
+            let url;
+            if (fileCheckbox.checked) {
+                formData.append("thesisFile", file)
+                url = "/thesis/" + id
+            }
+            else {
+                url = "/thesis/" + id
+            }
+            await axios.put(url, formData).then(
                 function (response) {
                     if (response.status === 200) {
                         console.log('tez guncellendi : ', response)
@@ -124,6 +146,7 @@ export default function ThesisUpload() {
             )
         }
         else {
+            formData.append("thesisFile", file)
             await axios.post("/thesis/add", formData).then(
                 function (response) {
                     if (response.status === 200) {
@@ -139,7 +162,7 @@ export default function ThesisUpload() {
         if (isUploading === false) {
             setTimeout(() => {
                 navigate("/thesis/mytheses")
-            }, 2000);
+            }, 1000);
         }
     },[isUploading])
 
@@ -148,7 +171,7 @@ export default function ThesisUpload() {
         <div className="container">
             {isLoading ? 
             <div className="d-flex justify-content-center align-items-center" style={{height: "100vh", backgroundColor: "white"}}>
-                <Spinner animation="border" variant="primary" /> 
+                <Spinner animation="border" variant="primary" color="#162d46" /> 
             </div>
             : 
             <div>
@@ -173,26 +196,37 @@ export default function ThesisUpload() {
                 </div>
                 }
                 <div id="uploadContainer">
-                <div className="row">
-                    <div className="col-md-6 mx-auto">
+                    <div className="col-md-12 px-auto">
                         <div className='mb-5 mt-5'>
                             <h3 className='text-center'>{id ? "Tezini Düzenle" : "Tezini yükle!"}</h3>
                         </div>
                         <form onSubmit={(e) => onSumbit(e)}>
-                            <div className="mb-3">
-                                <label htmlFor="fileInput" className="form-label">Dosya Seçiniz</label>
-                                <input type="file" className="form-control" id="fileInput" name='thesisFile' onChange={(e) => handleFileInputChange(e)} required />
+                            <div className="container">
+                                <div className="row mb-3 justify-content-center">
+                                    <div className="col-6">
+                                        <label id="fileInputLabel" className="form-label">{id ? "Tez Dosyasını Değiştir" : "Dosya Seçiniz"}</label>
+                                        { id ? <input type="checkbox" id="fileCheckbox" className="m-2" onChange={(e) => handleFileCheckbox(e)}/> : null }
+                                        <input type="file" className="form-control" id="fileInput" name='thesisFile' onChange={(e) => handleFileInputChange(e)} required={id ? false : true} disabled={id ? true : false} />
+                                    </div>
+                                    
+                                </div>
+                                <div className="row mb-3">
+                                    <div className="col">
+                                        <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange}/>
+                                    </div>
+                                    <div className="col">
+                                        <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange}/>
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    {thesisDetailDropdowns}
+                                </div>
                             </div>
-                            <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange}/>
-                            <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange}/>
-                            {thesisDetailDropdowns}
                             <button type="submit" className="btn btn-primary">Yükle</button>
                         </form>
                     </div>
                 </div>
-                </div>
             </div>
-            
             }
         </div>
     )

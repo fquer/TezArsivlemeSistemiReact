@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import ThesisUpload from './pages/ThesisUpload';
 import ThesisUser from './pages/ThesisUser';
+import ThesisView from './pages/ThesisView';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
       <BrowserRouter>
       <Navbar isLoggedIn = {isLoggedIn}/>
         <Routes>
+          <Route exact path='/thesis/:id' Component={ThesisView}></Route>
           <Route exact path='/thesis/edit/:id' Component={ThesisUpload}></Route>
           <Route exact path='/thesis/upload' Component={ThesisUpload}></Route>
           <Route exact path='/thesis/mytheses' Component={ThesisUser}></Route>

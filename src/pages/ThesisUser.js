@@ -78,10 +78,10 @@ export default function ThesisUser() {
             :
             <div className="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mt-3">
                 {theses.map((key, index) => (
-                    <div className="thesisCard card col m-3 justify-content-between" key={index} id={index}>
+                    <div className="thesisCard card col m-4 justify-content-between gx-0" key={index} id={index} style={{backgroundColor: "#F2F5F8", overflow: "hidden"}}>
                         <a key={index} href={"/thesis/" + key.id} style={{textDecoration: "none", color: "inherit", height: "78%"}}>
         
-                            <img className="thesisPreview" src={key.thesisFile.previewImage}></img>
+                            <img className="thesisPreview img-responsive" src={key.thesisFile.previewImage} alt={key.thesisFile.thesisName}></img>
                             <div className="card-body pl-3 pr-3 pt-1 pb-0">
                                 <h5 className="card-title">{key.thesisTitle}</h5>
                                 <p className="card-text">{key.thesisTopic}</p>
