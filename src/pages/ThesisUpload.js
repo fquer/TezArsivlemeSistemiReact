@@ -67,7 +67,7 @@ export default function ThesisUpload() {
     useEffect(() => {
         const userID = localStorage.getItem('userID')
         if (userID === "") {
-            navigate('/');
+            navigate('/login');
         }
         else {
             setCanAccessPage(true)
