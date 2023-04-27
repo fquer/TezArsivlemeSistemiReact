@@ -3,64 +3,12 @@ import { Spinner } from "react-bootstrap";
 import { useNavigate, useParams  } from 'react-router-dom';
 import axios from 'axios';
 import InputText from "../components/InputText";
-import InputSelect from "../components/InputSelect";
+import DynamicDropdowns from "../components/DynamicDropdowns";
+import { thesisDetail } from "../utils/ThesisUtil.js"
 
 export default function ThesisUpload() {
     const { id } = useParams();
-
-    const [thesis, setThesis] = useState({
-        thesisTitle: "",
-        thesisTopic: "",
-        thesisLanguage: "",
-        thesisGroup: "",
-        thesisUniversity: "",
-        thesisInstitute: "",
-        thesisMainField: "",
-        thesisChildrenField: "",
-        thesisType: ""
-    })
-
-    const thesisDetailDropdownsLabels = {
-        thesisUniversities: ["Üniversite", "thesisUniversity"],
-        thesisInstitutes: ["Enstitü", "thesisInstitute"],
-        thesisMainFields: ["Ana Bilim Dalı", "thesisMainField"],
-        thesisChildrenFields: ["Alt Bilim Dalı", "thesisChildrenField"],
-        thesisLanguages: ["Tez Dili", "thesisLanguage"],
-        thesisGroups: ["Grubu", "thesisGroup"],
-        thesisTypes: ["Tez Tipi", "thesisType"]
-    }
-
-    const [thesisDetailDropdowns, setThesisDetailDropdowns] = useState([]);
-    async function createThesisDetailDropdowns(data) {
-        const updatedThesis = { ...thesis };
-        const dropdowns = []
-
-        const checkUserForThesis = async () => {
-            if (id) {
-                const response = await axios.get("/thesis/" + id)
-                updatedThesis["thesisTitle"] = response.data.thesisTitle
-                updatedThesis["thesisTopic"] = response.data.thesisTopic
-                return response.data   
-            }
-            return null;
-        }
-        const editedThesisResponse = await checkUserForThesis();
-
-        for (const key of Object.keys(thesisDetailDropdownsLabels)) {
-            updatedThesis[thesisDetailDropdownsLabels[key][1]] = data[key][0].id
-            dropdowns.push(<div className="col-4" key={thesisDetailDropdownsLabels[key][1] + "DivKey"}>
-                            <InputSelect key={thesisDetailDropdownsLabels[key][1] + "Key"}
-                                        defaultValue = {editedThesisResponse ? editedThesisResponse[thesisDetailDropdownsLabels[key][1]].id : null}
-                                        inputData = {data[key]}
-                                        inputName = {thesisDetailDropdownsLabels[key][1]}
-                                        inputTitle = {thesisDetailDropdownsLabels[key][0]}
-                                        inputOnChange = {onInputChange}/></div>)
-        }
-        
-        setThesis(updatedThesis);
-        setThesisDetailDropdowns(dropdowns)
-        setIsLoading(false)
-    }
+    const [thesis, setThesis] = useState(thesisDetail)
 
     const [canAccessPage, setCanAccessPage] = useState(false);
     const navigate = useNavigate();
@@ -76,11 +24,28 @@ export default function ThesisUpload() {
 
     const isMountedRef = useRef(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [dropdownDetailData, setDropdownDetailData] = useState(null);
+    const [isHaveDefaultValue, setIsHaveDefaultValue] = useState(false);
     useEffect(() => {
         if (!isMountedRef.current && canAccessPage) {
             const fetchData = async () => {
-                const response = await axios.get("/thesisDetail/getAll")
-                createThesisDetailDropdowns(response.data)
+                const response = await axios.get("/thesisDetail/getAll") // dropdown kategorilerini al
+                if (id) { // eger duzenlenecek tez dolduruyorsak default value al
+                    const updatedThesis = { ...thesis };
+                    const response = await axios.get("/thesis/" + id)
+                    
+                    for await (const key of Object.keys(updatedThesis)) {
+                        updatedThesis[key] = response.data[key].id
+                    }
+
+                    updatedThesis["thesisTitle"] = response.data.thesisTitle
+                    updatedThesis["thesisTopic"] = response.data.thesisTopic
+
+                    setThesis(updatedThesis)
+                    setIsHaveDefaultValue(true)
+                }
+                setDropdownDetailData(response.data)
+                setIsLoading(false)
             }
             fetchData();
             isMountedRef.current = true;
@@ -128,15 +93,10 @@ export default function ThesisUpload() {
 
         if (id) {
             const fileCheckbox = document.getElementById("fileCheckbox")
-            let url;
             if (fileCheckbox.checked) {
                 formData.append("thesisFile", file)
-                url = "/thesis/" + id
             }
-            else {
-                url = "/thesis/" + id
-            }
-            await axios.put(url, formData).then(
+            await axios.put("/thesis/" + id, formData).then(
                 function (response) {
                     if (response.status === 200) {
                         console.log('tez guncellendi : ', response)
@@ -218,9 +178,11 @@ export default function ThesisUpload() {
                                         <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange}/>
                                     </div>
                                 </div>
-                                <div className="row mb-3">
-                                    {thesisDetailDropdowns}
-                                </div>
+                                <DynamicDropdowns mainClass = {thesis}
+                                                  data = {dropdownDetailData}
+                                                  onInputChange = {onInputChange}
+                                                  isHaveDefaultValue = {isHaveDefaultValue}/>
+                                
                             </div>
                             <button type="submit" className="btn btn-primary">Yükle</button>
                         </form>
