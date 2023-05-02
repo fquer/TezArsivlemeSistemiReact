@@ -172,10 +172,10 @@ export default function ThesisUpload() {
                                 </div>
                                 <div className="row mb-3">
                                     <div className="col">
-                                        <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange}/>
+                                        <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange} isRequired = {true}/>
                                     </div>
                                     <div className="col">
-                                        <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange}/>
+                                        <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange} isRequired = {true}/>
                                     </div>
                                 </div>
                                 <DynamicDropdowns mainClass = {thesis}

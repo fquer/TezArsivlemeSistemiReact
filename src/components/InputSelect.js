@@ -5,6 +5,10 @@ export default function InputSelect(props) {
     <div className="mb-3">
         <label className="form-label">{props.inputTitle}</label>
         <select className="form-select" name={props.inputName} defaultValue={props.defaultValue} onChange={(e) => props.inputOnChange(e)}>
+            {props.searchActive ?
+            <option value="">{props.inputTitle} Seçiniz</option>
+            :
+            null}
             {
             props.inputData.map((option, index) => (
                 <option value={option.id} key={index} >{option[props.inputName + "Name"]}</option>

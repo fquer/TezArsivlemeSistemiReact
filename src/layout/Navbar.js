@@ -14,7 +14,7 @@ export default function Navbar(props) {
   function addProfileNavbar() {
     if (userID !== "" && isLoggedIn === true) {
       return (
-        <ul className="dropdown-menu dropdown-menu-lg-start" style={{right: "0", left: "auto", backgroundColor: "#415A77"}}>
+        <ul className="dropdown-menu dropdown-menu-lg-start" style={{right: "0", left: "auto"}}>
           <li><a className="dropdown-item" href="/profile/settings">Hesap Ayarları</a></li>
           <li><a className="dropdown-item" href="/logout">Oturumu Sonlandır</a></li>
         </ul>
@@ -22,7 +22,7 @@ export default function Navbar(props) {
     }
     else {
       return (
-        <ul className="dropdown-menu dropdown-menu-lg-start" style={{right: "0", left: "auto", backgroundColor: "#415A77"}}>
+        <ul className="dropdown-menu dropdown-menu-lg-start" style={{right: "0", left: "auto"}}>
           <li><a className="dropdown-item" href="/login">Giriş Yap</a></li>
         </ul>
       )
@@ -30,7 +30,7 @@ export default function Navbar(props) {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light fixed-top mb-3" style={{backgroundColor: "#415A77"}}>
+    <nav className="navbar navbar-expand-lg navbar-light fixed-top mb-3">
       <a className="navbar-brand" style={{marginLeft: "10px"}} href="/">Tez Arşivleme Sistemi</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>

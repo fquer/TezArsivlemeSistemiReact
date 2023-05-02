@@ -3,7 +3,7 @@ import InputSelect from "./InputSelect";
 import { thesisDetailDropdownsLabels as mainClassLabels } from "../utils/ThesisUtil.js"
 
 export default function DynamicDropdowns(props) {
-    const { mainClass, data, onInputChange, isHaveDefaultValue } = props
+    const { mainClass, data, onInputChange, isHaveDefaultValue, searchActive } = props
 
     const isMountedRef = useRef(false);
 
@@ -20,7 +20,8 @@ export default function DynamicDropdowns(props) {
                                         inputData = {data[key]}
                                         inputName = {mainClassLabels[key].id}
                                         inputTitle = {mainClassLabels[key].label}
-                                        inputOnChange = {onInputChange}/></div>)
+                                        inputOnChange = {onInputChange}
+                                        searchActive = {searchActive} /></div>)
         }
         setDropdowns(dropdowns)
         setIsLoading(false)
