@@ -10,6 +10,7 @@ import Logout from './pages/Logout';
 import ThesisUpload from './pages/ThesisUpload';
 import ThesisUser from './pages/ThesisUser';
 import ThesisView from './pages/ThesisView';
+import ThesisSearch from './pages/ThesisSearch';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route exact path='/thesis/edit/:id' Component={ThesisUpload}></Route>
           <Route exact path='/thesis/upload' Component={ThesisUpload}></Route>
           <Route exact path='/thesis/mytheses' Component={ThesisUser}></Route>
+          <Route exact path='/thesis/search' Component={ThesisSearch}></Route>
           <Route exact path='/register' Component={Register}></Route>
           <Route exact path='/login' Component={(props) => <Login {...props} setIsLoggedIn={ setIsLoggedIn } />}></Route>
           <Route exact path='/logout' Component={(props) => <Logout {...props} setIsLoggedIn={ setIsLoggedIn } />}></Route>

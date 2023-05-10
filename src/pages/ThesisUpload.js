@@ -4,7 +4,7 @@ import { useNavigate, useParams  } from 'react-router-dom';
 import axios from 'axios';
 import InputText from "../components/InputText";
 import DynamicDropdowns from "../components/DynamicDropdowns";
-import { thesisDetail } from "../utils/ThesisUtil.js"
+import { thesisDetail, thesisDetailDropdownsLabels } from "../utils/ThesisUtil.js"
 
 export default function ThesisUpload() {
     const { id } = useParams();
@@ -43,6 +43,13 @@ export default function ThesisUpload() {
 
                     setThesis(updatedThesis)
                     setIsHaveDefaultValue(true)
+                }
+                else {
+                    const updatedThesis = { ...thesis };
+                    for await (const key of Object.keys(thesisDetailDropdownsLabels)) {
+                        updatedThesis[thesisDetailDropdownsLabels[key].id] = response.data[key][0].id
+                    }
+                    setThesis(updatedThesis)
                 }
                 setDropdownDetailData(response.data)
                 setIsLoading(false)
@@ -130,8 +137,10 @@ export default function ThesisUpload() {
     return (
         <div className="container">
             {isLoading ? 
-            <div className="d-flex justify-content-center align-items-center" style={{height: "100vh", backgroundColor: "white"}}>
-                <Spinner animation="border" variant="primary" color="#162d46" /> 
+            <div className="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
+                <div className="text-center">
+                    <Spinner animation="border" variant="primary" /> 
+                </div>
             </div>
             : 
             <div>

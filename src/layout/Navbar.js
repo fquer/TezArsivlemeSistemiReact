@@ -43,6 +43,9 @@ export default function Navbar(props) {
           <li className="nav-item">
             <a className="nav-link" href="/thesis/mytheses"><i className="fa fa-bookmark" aria-hidden="true"></i> Tezlerim </a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/thesis/search"><i className="fa fa-search" aria-hidden="true"></i> Tez Ara </a>
+          </li>
         </ul>
         <div className="dropdown" style={{marginLeft: "auto", marginRight: "10px"}}>
           <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user" aria-hidden="true"></i> Profilim</a>

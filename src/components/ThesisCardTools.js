@@ -25,7 +25,7 @@ export default function ThesisCardTools(props) {
     }
 
     return (
-    <div className=" d-flex">
+    <div style={{height: "35px"}} className="d-flex">
         <div className="me-auto mt-2">
             <Spinner id={index + "Loading"} animation="border" variant="primary" style={{display: "none", width: "20px", height: "20px", marginLeft: "10px"}} /> 
         </div>
