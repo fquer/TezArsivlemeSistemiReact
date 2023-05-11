@@ -63,7 +63,7 @@ export default function ThesisUser() {
             :
             <div className="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mt-3 p-3">
                 {theses.map((key, index) => (
-                    <ThesisCard key = {index + "Card"} index = {index} id = {key.id} previewImage = {key.thesisFile.previewImage} thesisName = {key.thesisFile.thesisName} thesisTitle = {key.thesisTitle} thesisTopic = {key.thesisTopic} thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}>
+                    <ThesisCard key = {index + "Card"} index = {index} id = {key.id} previewImage = {key.thesisFile.previewImage} thesisName = {key.thesisFile.thesisName} thesisTitle = {key.thesisTitle} thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}>
                         <ThesisCardTools index = {index} id = {key.id} />
                     </ThesisCard>
                 ))}

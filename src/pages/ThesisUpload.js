@@ -33,13 +33,14 @@ export default function ThesisUpload() {
                 if (id) { // eger duzenlenecek tez dolduruyorsak default value al
                     const updatedThesis = { ...thesis };
                     const response = await axios.get("/thesis/" + id)
-                    
+                    console.log("Response : ", response)
                     for await (const key of Object.keys(updatedThesis)) {
+                        console.log(response.data[key])
                         updatedThesis[key] = response.data[key].id
                     }
 
                     updatedThesis["thesisTitle"] = response.data.thesisTitle
-                    updatedThesis["thesisTopic"] = response.data.thesisTopic
+                    updatedThesis["thesisWrittenYear"] = response.data.thesisWrittenYear
 
                     setThesis(updatedThesis)
                     setIsHaveDefaultValue(true)
@@ -49,6 +50,7 @@ export default function ThesisUpload() {
                     for await (const key of Object.keys(thesisDetailDropdownsLabels)) {
                         updatedThesis[thesisDetailDropdownsLabels[key].id] = response.data[key][0].id
                     }
+                    updatedThesis["thesisWrittenYear"] = "2023"
                     setThesis(updatedThesis)
                 }
                 setDropdownDetailData(response.data)
@@ -133,7 +135,7 @@ export default function ThesisUpload() {
         }
     },[isUploading])
 
-    const { thesisTitle, thesisTopic } = thesis
+    const { thesisTitle } = thesis
     return (
         <div className="container">
             {isLoading ? 
@@ -182,9 +184,6 @@ export default function ThesisUpload() {
                                 <div className="row mb-3">
                                     <div className="col">
                                         <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange} isRequired = {true}/>
-                                    </div>
-                                    <div className="col">
-                                        <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesisTopic} inputOnChange = {onInputChange} isRequired = {true}/>
                                     </div>
                                 </div>
                                 <DynamicDropdowns mainClass = {thesis}

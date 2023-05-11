@@ -1,13 +1,13 @@
 export const thesisDetail = {
     thesisTitle: "",
-    thesisTopic: "",
     thesisLanguage: "",
     thesisGroup: "",
     thesisUniversity: "",
     thesisInstitute: "",
     thesisMainField: "",
     thesisChildrenField: "",
-    thesisType: ""
+    thesisType: "",
+    thesisWrittenYear: ""
 }
 
 export const thesisDetailDropdownsLabels = {

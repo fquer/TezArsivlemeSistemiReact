@@ -1,12 +1,12 @@
 import React from 'react'
 
 export default function ThesisLastCard(props) {
-    const { id, index, previewImage, thesisName, thesisTitle, thesisTopic } = props
+    const { id, index, previewImage, thesisName, thesisTitle } = props
   return (
     <div className="card col-2 m-4 gx-0" key={index} id={index} style={{backgroundColor: "#F2CC8F", overflow: "hidden"}}>
         <a key={index} href={"/thesis/" + id} style={{textDecoration: "none", color: "inherit", height: "78%"}}>
             <div className='topic'>
-                <p className='topicText'>{thesisTopic}</p>
+                <p className='topicText'>topic ?</p>
             </div>
 
             <img className="img-responsive" src={previewImage} alt={thesisName} style={{height: "90%"}}></img>

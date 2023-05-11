@@ -48,19 +48,17 @@ export default function Home() {
   return (
     <div className="p-4 container">
       <h2>Güncel Yayınlanan Tezler</h2>
-      {isLoading ? 
-      <ThesisCardLoading hasButtons = {false} cardCount = {4}/>
-      :
-      <div>
-        <div>
-          <div className="row justify-content-center">
-              {theses.map((key, index) => (
-                  <ThesisCard key = {index + "Card"} index = {index} id = {key.id} previewImage = {key.thesisFile.previewImage} thesisName = {key.thesisFile.thesisName} thesisTitle = {key.thesisTitle} thesisTopic = {key.thesisTopic} thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}/>
-              ))}
-          </div>
+      <div className="justify-content-center">
+        {isLoading ? 
+          <ThesisCardLoading hasButtons = {false} cardCount = {4}/>
+        :
+        <div className="row">
+          {theses.map((key, index) => (
+              <ThesisCard key = {index + "Card"} index = {index} id = {key.id} previewImage = {key.thesisFile.previewImage} thesisName = {key.thesisFile.thesisName} thesisTitle = {key.thesisTitle} thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}/>
+          ))}
         </div>
+        }
       </div>
-      }
     </div>
   )
 }

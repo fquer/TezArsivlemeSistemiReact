@@ -6,3 +6,7 @@ body {
 label {
     font-weight: bold !important;
 }
+
+.nav-link.active {
+    background-color: red !important;
+}

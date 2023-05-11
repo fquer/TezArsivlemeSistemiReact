@@ -4,6 +4,7 @@ import axios from 'axios'
 import InputText from "../components/InputText";
 import { thesisDetail } from "../utils/ThesisUtil.js"
 import DynamicDropdowns from "../components/DynamicDropdowns";
+import moment from "moment/moment";
 
 export default function ThesisSearch() {
     const isMountedRef = useRef(false);
@@ -42,6 +43,25 @@ export default function ThesisSearch() {
         setIsSearchResultLoading(false)
     }
 
+    const onBasicSumbit = async (e) => {
+        setIsSearchResultLoading(true)
+        e.preventDefault();
+        const generalSeachWord = document.getElementById('generalSearch').value
+        console.log(generalSeachWord)
+        const response = await axios.get("/thesis/findThesisBasic?generalSearchWord=" + generalSeachWord)
+        console.log("response : ", response.data)
+        setThesesList(response.data)
+        setIsSearchResultLoading(false)
+    }
+
+    const [activeTab, setActiveTab] = useState("tab1");
+
+    const toggleTab = (tab) => {
+        if (activeTab !== tab) {
+        setActiveTab(tab);
+        }
+    };
+
   return (
     <div>
         {
@@ -52,40 +72,67 @@ export default function ThesisSearch() {
                 </div>
             </div>
             :
-            <div className="mt-5">
-                <form onSubmit={(e) => onSumbit(e)}>
-                    <div className="container">
-                        <h1 className="mb-5">Tez Araması</h1>
-                        <div className="row mb-3">
-                            <div className="col">
-                                <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesis.thesisTitle} inputOnChange = {onInputChange} isRequired = {false}/>
-                            </div>
-                            <div className="col">
-                                <InputText inputLabel = "Tez Konusu" inputName = "thesisTopic" inputValue = {thesis.thesisTopic} inputOnChange = {onInputChange} isRequired = {false}/>
-                            </div>
-                            
-                            <div className="col-1">
-                                <button type="button" className="btn btn-primary mb-3" data-toggle="collapse" data-target="#advancedSearch">
-                                    Gelişmiş Arama <span className="fa fa-chevron-down"></span>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        
+            <div className="mt-5 container">
+                <div>
+                    <h1 className="mb-5">Tez Araması</h1>
 
-                        <div id="advancedSearch" className="collapse">
-                            <DynamicDropdowns mainClass = {thesis}
-                                            data = {dropdownDetailData}
-                                            onInputChange = {onInputChange}
-                                            searchActive = { true } />
+                    <ul className="nav nav-tabs">
+                        <li className="nav-item">
+                            <a className={`nav-link ${activeTab === "tab1" ? "active" : ""}`} onClick={() => toggleTab("tab1")} href="#">
+                                Basit Tarama
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className={`nav-link ${activeTab === "tab2" ? "active" : ""}`} onClick={() => toggleTab("tab2")} href="#">
+                                Gelişmiş Tarama
+                            </a>
+                        </li>
+                    </ul>
+                    <div className="tab-content">
+                        <div className={`tab-pane ${activeTab === "tab1" ? "active" : ""}`}>
+                            <form onSubmit={(e) => onBasicSumbit(e)}>
+                                <div className="row mt-5 mb-5">
+                                    <label className="mb-2" htmlFor="generalSearch">Aranacak Kelime</label>
+                                    <div className="col-11">
+                                        <input type="text" className="form-control" id="generalSearch" name="generalSearch"/>
+                                    </div>
+                                    <div className="col-1">
+                                        <button type="submit" className="btn btn-primary">Ara</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div className="row">
-                            <div className="col">
-                            <button type="submit" className="btn btn-primary">Ara</button>
-                            </div>
+
+                        <div className={`tab-pane ${activeTab === "tab2" ? "active" : ""}`}>
+                            
+                            <form onSubmit={(e) => onSumbit(e)}>
+                                <div className="mt-5">
+                                    <div className="row mb-3">
+                                        <div className="col">
+                                            <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesis.thesisTitle} inputOnChange = {onInputChange} isRequired = {false}/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <DynamicDropdowns mainClass = {thesis}
+                                                        data = {dropdownDetailData}
+                                                        onInputChange = {onInputChange}
+                                                        searchActive = { true } />
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col">
+                                        <button type="submit" className="btn btn-primary">Ara</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
                         </div>
+
                     </div>
-                </form>
+                </div>
+                
                 {
                     isSearchResultLoading ?
                     null
@@ -98,7 +145,7 @@ export default function ThesisSearch() {
                             <thead>
                                 <tr>
                                     <th scope="col">Tez Başlığı</th>
-                                    <th scope="col">Tez Konusu</th>
+                                    <th scope="col">Yazar</th>
                                     <th scope="col">Üniversite</th>
                                     <th scope="col">Enstitü</th>
                                     <th scope="col">Ana Bilim Dalı</th>
@@ -106,14 +153,16 @@ export default function ThesisSearch() {
                                     <th scope="col">Tez Dili</th>
                                     <th scope="col">Tez Grubu</th>
                                     <th scope="col">Tez Tipi</th>
+                                    <th scope="col">Yazılma Yılı</th>
+                                    <th scope="col">Sisteme Yüklenme Tarihi</th>
                                     <th scope="col">Dosya</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {thesesList.map((key, index) => (
-                                    <tr>
+                                    <tr key={index}>
                                         <td>{key.thesisTitle}</td>
-                                        <td>{key.thesisTopic}</td>
+                                        <td>{key.user.userName + " " + key.user.userSurname}</td>
                                         <td>{key.thesisUniversity.thesisUniversityName}</td>
                                         <td>{key.thesisInstitute.thesisInstituteName}</td>
                                         <td>{key.thesisMainField.thesisMainFieldName}</td>
@@ -121,6 +170,8 @@ export default function ThesisSearch() {
                                         <td>{key.thesisLanguage.thesisLanguageName}</td>
                                         <td>{key.thesisGroup.thesisGroupName}</td>
                                         <td>{key.thesisType.thesisTypeName}</td>
+                                        <td>{key.thesisWrittenYear}</td>
+                                        <td>{moment(key.thesisUploadDate).format('l')}</td>
                                         <td style={{textAlign: "center"}}><a href={"/thesis/" + key.id}><i className="fa fa-file-text" aria-hidden="true"></i></a></td>
                                     </tr>
                                 ))}

@@ -11,6 +11,7 @@ export default function DynamicDropdowns(props) {
     const [isLoading, setIsLoading] = useState(true);
 
     async function createDropdowns() {
+        const years = Array.from({ length: 50 }, (_, index) => 2023 - index);
         const dropdowns = []
 
         for await (const key of Object.keys(mainClassLabels)) {
@@ -23,6 +24,20 @@ export default function DynamicDropdowns(props) {
                                         inputOnChange = {onInputChange}
                                         searchActive = {searchActive} /></div>)
         }
+
+        dropdowns.push(
+            <div className="col-4" key="yil">
+                <div className="mb-3" key="yil">
+                    <label className="form-label">Tez Yazılma Tarihi</label>
+                    <select className="form-select" name='thesisWrittenYear' onChange={onInputChange} defaultValue={isHaveDefaultValue ? mainClass.thesisWrittenYear : null}>
+                        {searchActive ? <option key="defSecim" value="">Yazılma Yılı Seçiniz</option> : null}
+                        {years.map((year) => (
+                            <option key={year} value={year}>{year}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+        )
         setDropdowns(dropdowns)
         setIsLoading(false)
     }
