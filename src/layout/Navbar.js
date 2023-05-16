@@ -38,7 +38,6 @@ export default function Navbar(props) {
         <div className="dropdown" style={{marginLeft: "auto", marginRight: "10px"}}>
           <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user" aria-hidden="true"></i> Profilim</a>
           <ul className="dropdown-menu dropdown-menu-lg-start" style={{right: "0", left: "auto"}}>
-            <li><a className="dropdown-item" href="/profile/settings">Hesap Ayarları</a></li>
             <li><a className="dropdown-item" href="/logout">Oturumu Sonlandır</a></li>
           </ul>
         </div>

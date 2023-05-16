@@ -141,7 +141,7 @@ export default function ThesisSearch() {
                     <div>sonuc bulunamadi</div>
                     : 
                     <div className="container">
-                        <table className="table table-striped">
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Tez Başlığı</th>

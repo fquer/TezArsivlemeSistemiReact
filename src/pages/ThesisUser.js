@@ -58,7 +58,12 @@ export default function ThesisUser() {
     
     return (
         <div>
-            {isLoading ? 
+            {thesisCount == 0 ?
+            <div className="d-flex justify-content-center align-items-center" style={{height: "90vh"}}>
+                <span style={{fontSize: "25px"}}>Yüklü tez bulunamadı. <a href="/thesis/upload">Tez yükle!</a></span>
+            </div>
+            :
+            isLoading ? 
             <ThesisCardLoading hasButtons = {true} cardCount = {thesisCount}/>
             :
             <div className="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mt-3 p-3">

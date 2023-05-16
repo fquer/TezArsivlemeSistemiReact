@@ -1,0 +1,83 @@
+.thesisCardHomeRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.baslik {
+    color: rgb(102, 178, 255) !important;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.altBilgi {
+    background-color: rgb(18, 46, 75);
+    border-radius: 7px;
+    margin: 5px;
+}
+
+.thesisCardHomeColumn {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 3;
+}
+
+.thesisPreviewHome {
+    width: 55%;
+    height: 88%;
+    border-radius: 7px;
+}
+
+.thesisCardHome {
+    border-radius: 7px;
+    transition: all 0.2s ease; 
+    cursor: pointer;
+    border-color: rgb(12, 47, 84);
+    border-width: 5px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: auto; 
+    background-color: rgb(18, 46, 75);
+    overflow: hidden;
+    height: 15rem;
+}
+
+.thesisCardHome:hover {
+    transform: scale(1.03);
+}
+
+.card-title, .card-text {
+    color: rgb(47, 47, 47);
+}
+
+.thesisCardLoadingHome {
+    border: none;
+    background-color: rgb(12, 47, 84);
+    overflow: hidden;
+    transition: none;
+    border: 5px solid rgb(12, 47, 84) !important;
+}
+
+.thesisCardLoadingHome:before {
+	content:'';
+    top:0;
+	transform:translateX(100%);
+	width:100%;
+	height:100%;
+	position: absolute;
+	z-index:1;
+	animation: slide 1s infinite;
+	 
+    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(128,186,232,0) 99%, rgba(125,185,232,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(50%,rgba(255,255,255,0.8)), color-stop(99%,rgba(128,186,232,0)), color-stop(100%,rgba(125,185,232,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.8) 50%,rgba(128,186,232,0) 99%,rgba(125,185,232,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.8) 50%,rgba(128,186,232,0) 99%,rgba(125,185,232,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.8) 50%,rgba(128,186,232,0) 99%,rgba(125,185,232,0) 100%); /* IE10+ */
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.8) 50%,rgba(128,186,232,0) 99%,rgba(125,185,232,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+}
+
+@keyframes slide {
+	0% {transform:translateX(-100%);}
+	100% {transform:translateX(100%);}
+}

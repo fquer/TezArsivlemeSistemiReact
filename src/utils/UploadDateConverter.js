@@ -5,8 +5,6 @@ export default function calculateUploadDates(uploadDate) {
     const upload = moment(uploadDate);
     const diff = moment.duration(now.diff(upload));
 
-    console.log(`${diff.days()} gün, ${diff.hours()} saat, ${diff.minutes()} dakika ve ${diff.seconds()} saniye önce yüklenmiş.`);
-
     if (diff.days() !== 0) {
       return diff.days() + " gün önce yüklendi."
     }

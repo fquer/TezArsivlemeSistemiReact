@@ -1,5 +1,5 @@
 body {
-    background-color: #F4F1DE !important;
+    background-color: rgb(10, 25, 41) !important;
     padding-top: 55px;
 }
 
@@ -7,6 +7,45 @@ label {
     font-weight: bold !important;
 }
 
+h1, h2, h3, h4, h5, p, span, label {
+    color: white !important;
+}
+
 .nav-link.active {
-    background-color: red !important;
+    background-color: rgb(102, 178, 255) !important;
+}
+
+.navbar {
+    box-shadow: 0 0 1px white !important;
+}
+
+button[type="submit"] {
+    background-color: rgb(102, 178, 255) !important;
+}
+
+button {
+    color: white !important;
+}
+
+select, input {
+    background-color: rgb(18, 46, 75) !important;
+    color: white !important;
+    border-color: rgb(102, 178, 255) !important;
+}
+
+td {
+    color: white;
+}
+
+th {
+    color: rgb(102, 178, 255) !important;
+    font-weight: bold;
+}
+
+.rpv-core__menu-item, .rpv-core__menu, .rpv-core__popover-body, .rpv-core__arrow, .rpv-core__inner-page {
+    background-color: rgb(10, 25, 41) !important;
+}
+
+.rpv-core__menu-item:hover {
+    background-color: rgb(102, 178, 255) !important;
 }

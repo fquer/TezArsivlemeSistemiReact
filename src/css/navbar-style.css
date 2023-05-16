@@ -9,7 +9,7 @@
 }
 
 .dropdown-item:hover {
-    background-color: #df8870 !important;
+    background-color: rgb(102, 178, 255) !important;
 }
 
 .nav-link, .navbar-brand, .dropdown-item {
@@ -18,5 +18,5 @@
 }
 
 .navbar, .dropdown-menu {
-    background-color: #E07A5F !important;
+    background-color: rgb(10, 25, 41) !important;
 }

@@ -105,13 +105,6 @@ export default function Register() {
                             <label htmlFor="passwordAgain" className="form-label">Parola Yeniden</label>
                             <input type="password" className="form-control" id="passwordAgain" minLength="8" onChange={(e) => setConfirmPassword(e.target.value)}/>
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="whoUsing" className="form-label">Kim Kullanıyor ?</label>
-                            <select className="form-select" id='whoUsing' name='userTypeId' onChange={(e) => onInputChange(e)}>
-                                <option value={'6435eca14a91c114ab19f92f'}>Öğrenci</option>
-                                <option value={'6435ed0c4a91c114ab19f930'}>Öğretim Üyesi</option>
-                            </select>
-                        </div>
                         <button type="submit" className="btn btn-primary">Kayıt Ol!</button>
                         <div className='mb-5 mt-5'>
                             <span>Zaten üye misin? <a href="/login">Giriş Yap!</a></span>

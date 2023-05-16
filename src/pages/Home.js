@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import ThesisCardLoading from "../components/ThesisCardLoading";
+import ThesisCardLoading from "../components/ThesisCardLoadingHome";
 import axios from 'axios'
-import ThesisCard from '../components/ThesisCard'
+import ThesisCard from '../components/ThesisCardHome'
 import "../css/home-style.css"
 import calculateUploadDates from "../utils/UploadDateConverter";
+import document from '../images/document.png';
 
 export default function Home() {
   const isMountedRef = useRef(false);
@@ -34,7 +35,6 @@ export default function Home() {
               }
               setTheses(response.data)
               console.log(response.data)
-              console.log(calculateUploadDates(response.data[0].thesisUploadDate))
               setIsLoading(false)
           }
 
@@ -46,19 +46,33 @@ export default function Home() {
   
 
   return (
-    <div className="p-4 container">
-      <h2>Güncel Yayınlanan Tezler</h2>
-      <div className="justify-content-center">
+    <div className="container overflow-hidden mt-4">
+      <h2 className="mb-4">Güncel Yayınlanan Tezler</h2>
+      <div className="row d-flex justify-content-center">
         {isLoading ? 
           <ThesisCardLoading hasButtons = {false} cardCount = {4}/>
         :
-        <div className="row">
-          {theses.map((key, index) => (
-              <ThesisCard key = {index + "Card"} index = {index} id = {key.id} previewImage = {key.thesisFile.previewImage} thesisName = {key.thesisFile.thesisName} thesisTitle = {key.thesisTitle} thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}/>
-          ))}
-        </div>
+          theses.map((key, index) => (
+              <ThesisCard key = {index + "Card"} 
+              index = {index} id = {key.id} 
+              previewImage = {key.thesisFile.previewImage} 
+              thesisName = {key.thesisFile.thesisName} 
+              thesisTitle = {key.thesisTitle} 
+              thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}
+              author = {key.user.userName + " " + key.user.userSurname}
+              thesisType = {key.thesisType.thesisTypeName}
+              thesisUniversity = {key.thesisUniversity.thesisUniversityName}/>
+          ))
         }
-      </div>
+        </div>
+        <div className="row d-flex justify-content-center mt-5">
+          <div className="col-5 altBilgi align-items-center">
+            <p className='baslik p-5 mb-0 fs-4 text-center'>Sen de tezlerini <a href="/thesis/upload" style={{color: "rgb(102, 178, 255)"}}>yükle!</a></p>
+          </div>
+          <div className="">
+            <p className=''>Özgürce istediğin tezleri <a href="/thesis/search" >araştır!</a></p>
+          </div>
+        </div>
     </div>
   )
 }

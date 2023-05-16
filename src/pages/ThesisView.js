@@ -19,6 +19,7 @@ export default function ThesisView() {
         Download: () => <></>,
         EnterFullScreen: () => <></>,
         SwitchTheme: () => <></>,
+        Search: () => <></>
     });
 
     const { id } = useParams();
@@ -50,13 +51,18 @@ export default function ThesisView() {
             <Spinner animation="border" variant="primary" /> 
         </div>
         :
-        <div className='d-flex flex-column' style={{overflow: "hidden", height: "90vh"}}>
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js">
-                <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
-                <div className='flex-fil' style={{overflow: "auto"}}>
-                    <Viewer fileUrl={thesisData.thesisFile.fileUrl} plugins={[toolbarPluginInstance]}></Viewer>
-                </div>
-            </Worker>
+        <div>
+            <div className='row'>
+
+            </div>
+            <div className='d-flex flex-column mt-1' style={{overflow: "hidden", height: "90vh"}}>
+                <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js">
+                    <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
+                    <div className='flex-fil mt-1' style={{overflow: "auto"}}>
+                        <Viewer fileUrl={thesisData.thesisFile.fileUrl} plugins={[toolbarPluginInstance]}></Viewer>
+                    </div>
+                </Worker>
+            </div>
         </div>
         }
     </div>

@@ -42,6 +42,10 @@ export default function Login(props) {
         })
     }
 
+    const resetPassword = async () => {
+        navigate('/resetPassword');
+    }
+
     return (
         <div className="container">
             <div className="row">
@@ -58,7 +62,15 @@ export default function Login(props) {
                             <label htmlFor="password" className="form-label">Parola</label>
                             <input type="password" className="form-control" id="password" value={userPassword} name='userPassword' onChange={(e) => onInputChange(e)}/>
                         </div>
-                        <button type="submit" className="btn btn-primary">Giriş Yap</button>
+                        <div className='row'>
+                            <div className='col-3'>
+                                <button type="submit" className="btn btn-primary">Giriş Yap</button>
+                            </div>
+                            <div className='col-3 mt-1'>
+                                <a onClick={resetPassword} href='#'>Şifremi Unuttum</a>
+                            </div>
+                        </div>
+                        
                         <div className='mb-5 mt-5'>
                             <span>Üyeliğin yok mu ? <a href="/register">Üye Ol!</a></span>
                         </div>

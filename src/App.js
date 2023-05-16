@@ -11,6 +11,8 @@ import ThesisUpload from './pages/ThesisUpload';
 import ThesisUser from './pages/ThesisUser';
 import ThesisView from './pages/ThesisView';
 import ThesisSearch from './pages/ThesisSearch';
+import ResetPassword from './pages/ResetPassword';
+import ResetPasswordSubmit from './pages/ResetPasswordSubmit';
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
           <Route exact path='/thesis/mytheses' Component={ThesisUser}></Route>
           <Route exact path='/thesis/search' Component={ThesisSearch}></Route>
           <Route exact path='/register' Component={Register}></Route>
+          <Route exact path='/resetPassword' Component={ResetPassword}></Route>
+          <Route exact path='/resetPasswordSubmit/:id' Component={ResetPasswordSubmit}></Route>
           <Route exact path='/login' Component={(props) => <Login {...props} setIsLoggedIn={ setIsLoggedIn } />}></Route>
           <Route exact path='/logout' Component={(props) => <Logout {...props} setIsLoggedIn={ setIsLoggedIn } />}></Route>
           <Route exact path='/' Component={Home}></Route>
