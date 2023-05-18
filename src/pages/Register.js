@@ -107,7 +107,7 @@ export default function Register() {
                         </div>
                         <button type="submit" className="btn btn-primary">Kayıt Ol!</button>
                         <div className='mb-5 mt-5'>
-                            <span>Zaten üye misin? <a href="/login">Giriş Yap!</a></span>
+                            <span>Zaten üye misin? <a style={{color: "rgb(102, 178, 255)", fontWeight: 'bold'}} href="/login">Giriş Yap!</a></span>
                         </div>
                     </form>
                 </div>

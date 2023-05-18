@@ -7,7 +7,8 @@ export const thesisDetail = {
     thesisMainField: "",
     thesisChildrenField: "",
     thesisType: "",
-    thesisWrittenYear: ""
+    thesisWrittenYear: "",
+    thesisAdvisor: ""
 }
 
 export const thesisDetailDropdownsLabels = {

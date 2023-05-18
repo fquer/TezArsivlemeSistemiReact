@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Spinner } from 'react-bootstrap';
 
 export default function ResetPasswordSubmit() {
     const [isSuccessful, setIsSuccessful] = useState(false);
@@ -12,6 +13,25 @@ export default function ResetPasswordSubmit() {
     const { password, passwordAgain } = passwordObj
 
     const { id } = useParams();
+    const isMountedRef = useRef(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isCanSeePage, setIsCanSeePage] = useState(false);
+    useEffect(() => {
+        if (!isMountedRef.current) {
+            axios.get("/user/resetPasswordCheckToken?token=" + id)
+            .then((response) => {
+                if (response.status == 200) {
+                    setIsCanSeePage(true)
+                }
+                setIsLoading(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                setIsLoading(false)
+            })
+            isMountedRef.current = true; 
+        }
+    }, [])
 
     const onInputChange = (e) => {
         setPasswordObj({ ...passwordObj, [e.target.name]: e.target.value })
@@ -42,7 +62,17 @@ export default function ResetPasswordSubmit() {
     }
 
   return (
+    
     <div className="container">
+        {isLoading ?
+        <div className="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
+            <div className="text-center">
+                <Spinner animation="border" className='bootstrapSpinner'/> 
+            </div>
+        </div>
+        :
+        <div>
+            {isCanSeePage ?
             <div className="row">
                 <div className="col-md-6 mx-auto">
                     <div className='mb-5 mt-5'>
@@ -62,12 +92,23 @@ export default function ResetPasswordSubmit() {
                                 <button type="submit" className="btn btn-primary">Onayla</button>
                             </div>
                             <div className='col mt-1'>
-                                {isSuccessful ? <p style={{color: "green"}}>Şifreniz başarıyla sıfırlandı!</p> : null}
+                                {isSuccessful ? <p className='successfulText'>Şifreniz başarıyla sıfırlandı!</p> : null}
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+            :
+            <div className="d-flex justify-content-center align-items-center" style={{position: "absolute",zIndex: "1", transform: "translate(-50%, -50%)", top: "50%", left: "50%", width: "90%", height: "90%"}}>
+                <div className="text-center">
+                    <i className="fa fa-times-circle fa-5x" aria-hidden="true"></i>
+                    <h1>Bu bağlantı artık geçersizdir!</h1>
+                </div>
+            </div> 
+            }
         </div>
+        
+        }
+    </div>
   )
 }

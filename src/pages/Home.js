@@ -69,8 +69,8 @@ export default function Home() {
           <div className="col-5 altBilgi align-items-center">
             <p className='baslik p-5 mb-0 fs-4 text-center'>Sen de tezlerini <a href="/thesis/upload" style={{color: "rgb(102, 178, 255)"}}>yükle!</a></p>
           </div>
-          <div className="">
-            <p className=''>Özgürce istediğin tezleri <a href="/thesis/search" >araştır!</a></p>
+          <div className="col-5 altBilgi align-items-center">
+            <p className='baslik p-5 mb-0 fs-4 text-center'>Özgürce istediğin tezleri <a href="/thesis/search" style={{color: "rgb(102, 178, 255)"}}>araştır!</a></p>
           </div>
         </div>
     </div>

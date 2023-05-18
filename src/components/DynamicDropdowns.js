@@ -15,7 +15,7 @@ export default function DynamicDropdowns(props) {
         const dropdowns = []
 
         for await (const key of Object.keys(mainClassLabels)) {
-            dropdowns.push(<div className="col-4" key={mainClassLabels[key].id + "DivKey"}>
+            dropdowns.push(<div className="col-3" key={mainClassLabels[key].id + "DivKey"}>
                             <InputSelect key={mainClassLabels[key].id + "Key"}
                                         defaultValue = {isHaveDefaultValue ? mainClass[mainClassLabels[key].id] : null} // baslangic deger
                                         inputData = {data[key]}
@@ -26,7 +26,7 @@ export default function DynamicDropdowns(props) {
         }
 
         dropdowns.push(
-            <div className="col-4" key="yil">
+            <div className="col-3" key="yil">
                 <div className="mb-3" key="yil">
                     <label className="form-label">Tez Yazılma Tarihi</label>
                     <select className="form-select" name='thesisWrittenYear' onChange={onInputChange} defaultValue={isHaveDefaultValue ? mainClass.thesisWrittenYear : null}>

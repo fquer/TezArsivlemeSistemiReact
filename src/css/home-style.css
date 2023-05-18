@@ -1,9 +1,3 @@
-.thesisCardHomeRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 .baslik {
     color: rgb(102, 178, 255) !important;
     font-size: 13px;
@@ -14,18 +8,6 @@
     background-color: rgb(18, 46, 75);
     border-radius: 7px;
     margin: 5px;
-}
-
-.thesisCardHomeColumn {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 3;
-}
-
-.thesisPreviewHome {
-    width: 55%;
-    height: 88%;
-    border-radius: 7px;
 }
 
 .thesisCardHome {

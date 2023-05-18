@@ -27,7 +27,7 @@ export default function ThesisCardTools(props) {
     return (
     <div style={{height: "35px"}} className="d-flex">
         <div className="me-auto mt-2">
-            <Spinner id={index + "Loading"} animation="border" variant="primary" style={{display: "none", width: "20px", height: "20px", marginLeft: "10px"}} /> 
+            <Spinner id={index + "Loading"} animation="border" className='bootstrapSpinner' style={{display: "none", width: "20px", height: "20px", marginLeft: "10px"}} /> 
         </div>
         <div className="">
             <button className="btn" onClick={() => {editThesis(id)}}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button>

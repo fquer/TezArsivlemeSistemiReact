@@ -41,6 +41,7 @@ export default function ThesisUpload() {
 
                     updatedThesis["thesisTitle"] = response.data.thesisTitle
                     updatedThesis["thesisWrittenYear"] = response.data.thesisWrittenYear
+                    updatedThesis["thesisAdvisor"] = response.data.thesisAdvisor.split('-')[1].trim()
 
                     setThesis(updatedThesis)
                     setIsHaveDefaultValue(true)
@@ -96,7 +97,12 @@ export default function ThesisUpload() {
         
         const formData = new FormData();
         for (let key in thesis) {
-            formData.append(key, thesis[key]);
+            if (key == "thesisAdvisor") {
+                formData.append(key, document.getElementById("unvan").value + thesis[key]);
+            }
+            else {
+                formData.append(key, thesis[key]);
+            }
         }
         formData.append('userId', localStorage.getItem('userID'))
 
@@ -135,13 +141,13 @@ export default function ThesisUpload() {
         }
     },[isUploading])
 
-    const { thesisTitle } = thesis
+    const { thesisTitle, thesisAdvisor } = thesis
     return (
         <div className="container">
             {isLoading ? 
             <div className="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
                 <div className="text-center">
-                    <Spinner animation="border" variant="primary" /> 
+                    <Spinner animation="border" className='bootstrapSpinner' /> 
                 </div>
             </div>
             : 
@@ -149,7 +155,7 @@ export default function ThesisUpload() {
                 {isUploading === true ? 
                 <div className="d-flex justify-content-center align-items-center" style={{position: "absolute",zIndex: "1", transform: "translate(-50%, -50%)", top: "50%", left: "50%", width: "90%", height: "90%"}}>
                     <div className="text-center">
-                        <Spinner animation="border" variant="primary" /> 
+                        <Spinner animation="border" className='bootstrapSpinner' /> 
                     </div>
                 </div> 
                 : 
@@ -182,14 +188,32 @@ export default function ThesisUpload() {
                                     
                                 </div>
                                 <div className="row mb-3">
-                                    <div className="col">
+                                    
+                                </div>
+                                <div className="row mb-3">
+                                <div className="col-7">
                                         <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesisTitle} inputOnChange = {onInputChange} isRequired = {true}/>
                                     </div>
+                                    <div className="col-2">
+                                        <label className="form-label">Danışman Ünvanı</label>
+                                        <select className="form-select" id="unvan">
+                                            <option value="Dr.Öğr.Üyesi - ">Dr.Öğr.Üyesi</option>
+                                            <option value="Doç.Dr. - ">Doç.Dr.</option>
+                                            <option value="Prof.Dr. - ">Prof.Dr.</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-3">
+                                        <InputText inputLabel = "Danışman İsim Soyisim" inputName = "thesisAdvisor" inputValue = {thesisAdvisor} inputOnChange = {onInputChange} isRequired = {true}/>
+                                    </div>
                                 </div>
+                                
+                                
                                 <DynamicDropdowns mainClass = {thesis}
-                                                  data = {dropdownDetailData}
-                                                  onInputChange = {onInputChange}
-                                                  isHaveDefaultValue = {isHaveDefaultValue}/>
+                                                data = {dropdownDetailData}
+                                                onInputChange = {onInputChange}
+                                                isHaveDefaultValue = {isHaveDefaultValue}/>
+                                
+                                
                                 
                             </div>
                             <button type="submit" className="btn btn-primary">Yükle</button>

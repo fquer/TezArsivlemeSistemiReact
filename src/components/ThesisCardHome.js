@@ -9,7 +9,7 @@ export default function ThesisCard(props) {
             <div className='d-flex justify-content-between m-3'>
                 <img className="img-responsive" src={previewImage} alt={thesisName} style={{width: "29%", borderRadius: "7px"}}></img>
                 <div className='d-flex row justify-content-between ps-5'>
-                    <p className=" fs-2 text-capitalize" style={{fontWeight: "700"}}>{thesisTitle}</p>
+                    <p className=" fs-6 text-capitalize tezBaslik" style={{fontWeight: "700"}}>{thesisTitle}</p>
                     <p className='baslik mb-0'>Üniversite</p>
                     <p className=" pt-1 fs-6 bold text-capitalize mt-0">{thesisUniversity}</p>
                     
@@ -25,7 +25,7 @@ export default function ThesisCard(props) {
                             
                         </div>
                     </div>
-                    <span style={{fontSize: "10px"}} className=' mt-2'>{thesisUploadDate}</span>
+                    <span style={{fontSize: "10px"}} className=' mt-1'>{thesisUploadDate}</span>
                 </div>
             </div>
         </a>

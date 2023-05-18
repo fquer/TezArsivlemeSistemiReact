@@ -68,7 +68,7 @@ export default function ThesisSearch() {
             isLoading ?
             <div className="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
                 <div className="text-center">
-                    <Spinner animation="border" variant="primary" /> 
+                    <Spinner animation="border" className='bootstrapSpinner' /> 
                 </div>
             </div>
             :
@@ -108,8 +108,11 @@ export default function ThesisSearch() {
                             <form onSubmit={(e) => onSumbit(e)}>
                                 <div className="mt-5">
                                     <div className="row mb-3">
-                                        <div className="col">
+                                        <div className="col-9">
                                             <InputText inputLabel = "Tez Başlığı" inputName = "thesisTitle" inputValue = {thesis.thesisTitle} inputOnChange = {onInputChange} isRequired = {false}/>
+                                        </div>
+                                        <div className="col-3">
+                                            <InputText inputLabel = "Danışman İsim Soyisim" inputName = "thesisAdvisor" inputValue = {thesis.thesisAdvisor} inputOnChange = {onInputChange} isRequired = {false}/>
                                         </div>
                                     </div>
                                     
@@ -155,6 +158,7 @@ export default function ThesisSearch() {
                                     <th scope="col">Tez Tipi</th>
                                     <th scope="col">Yazılma Yılı</th>
                                     <th scope="col">Sisteme Yüklenme Tarihi</th>
+                                    <th scope="col">Danışman</th>
                                     <th scope="col">Dosya</th>
                                 </tr>
                             </thead>
@@ -172,6 +176,7 @@ export default function ThesisSearch() {
                                         <td>{key.thesisType.thesisTypeName}</td>
                                         <td>{key.thesisWrittenYear}</td>
                                         <td>{moment(key.thesisUploadDate).format('l')}</td>
+                                        <td>{key.thesisAdvisor}</td>
                                         <td style={{textAlign: "center"}}><a href={"/thesis/" + key.id}><i className="fa fa-file-text" aria-hidden="true"></i></a></td>
                                     </tr>
                                 ))}

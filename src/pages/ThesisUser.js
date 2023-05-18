@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../css/thesisUser-style.css'
 import ThesisCard from "../components/ThesisCard";
 import ThesisCardTools from "../components/ThesisCardTools";
-import ThesisCardLoading from "../components/ThesisCardLoading";
+import ThesisCardLoading from "../components/ThesisCardLoadingHome";
 import calculateUploadDates from "../utils/UploadDateConverter";
 
 export default function ThesisUser() {
@@ -24,6 +24,7 @@ export default function ThesisUser() {
     const [theses, setTheses] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [thesisCount, setThesisCount] = useState(0);
+    const [isHaveThesis, setisHaveThesis] = useState(true);
     useEffect(() => {
         if (!isMountedRef.current && canAccessPage) {
 
@@ -44,10 +45,17 @@ export default function ThesisUser() {
             const fetchData = async () => {
                 const response = await axios.get("/thesis/getAllByUserId/" + localStorage.getItem('userID'))
                 setThesisCount(response.data.length)
+                if (response.data.length == 0) {
+                    setisHaveThesis(false)
+                }
+                else {
+                    setisHaveThesis(true)
+                }
                 for (const thesis of response.data) {
                     await fetchPreviewImage(thesis)
                 }
                 setTheses(response.data)
+                console.log(response.data)
                 setIsLoading(false)
             }
 
@@ -57,23 +65,35 @@ export default function ThesisUser() {
     }, [canAccessPage])
     
     return (
-        <div>
-            {thesisCount == 0 ?
-            <div className="d-flex justify-content-center align-items-center" style={{height: "90vh"}}>
-                <span style={{fontSize: "25px"}}>Yüklü tez bulunamadı. <a href="/thesis/upload">Tez yükle!</a></span>
+        <div className="container overflow-hidden mt-4">
+            <div className="row d-flex justify-content-center">
+                <h3>Tezlerim</h3>
+                {!isHaveThesis ?
+                <div className="d-flex justify-content-center align-items-center" style={{height: "90vh"}}>
+                    <span style={{fontSize: "25px"}}>Yüklü tez bulunamadı. <a href="/thesis/upload">Tez yükle!</a></span>
+                </div>
+                :
+                isLoading ? 
+                <ThesisCardLoading hasButtons = {true} cardCount = {thesisCount}/>
+                :
+  
+                    theses.map((key, index) => (
+                        <ThesisCard key = {index + "Card"}
+                        index = {index} id = {key.id}
+                        previewImage = {key.thesisFile.previewImage}
+                        thesisName = {key.thesisFile.thesisName}
+                        thesisTitle = {key.thesisTitle}
+                        thesisType = {key.thesisType.thesisTypeName}
+                        thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}
+                        thesisLanguage = {key.thesisLanguage.thesisLanguageName}
+                        thesisWrittenYear = {key.thesisWrittenYear}
+                        thesisAdvisor = {key.thesisAdvisor}>
+                            <ThesisCardTools index = {index} id = {key.id} />
+                        </ThesisCard>
+                    ))
+             
+                }
             </div>
-            :
-            isLoading ? 
-            <ThesisCardLoading hasButtons = {true} cardCount = {thesisCount}/>
-            :
-            <div className="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mt-3 p-3">
-                {theses.map((key, index) => (
-                    <ThesisCard key = {index + "Card"} index = {index} id = {key.id} previewImage = {key.thesisFile.previewImage} thesisName = {key.thesisFile.thesisName} thesisTitle = {key.thesisTitle} thesisUploadDate = {calculateUploadDates(key.thesisUploadDate)}>
-                        <ThesisCardTools index = {index} id = {key.id} />
-                    </ThesisCard>
-                ))}
-            </div>
-            }
         </div>
     )
 }

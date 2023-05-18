@@ -16,7 +16,7 @@ export default function Logout(props) {
                     <h1 className=''>Oturum sonlandırıldı.</h1>
                 </div>
                 <div className='mb-5 mt-5 text-center'>
-                    <span>Tezlerini yönetmek için tekrar <a href="/login">giriş yap.</a></span>
+                    <span>Tezlerini yönetmek için tekrar <a style={{color: "rgb(102, 178, 255)", fontWeight: 'bold'}} href="/login">giriş yap.</a></span>
                 </div>
             </div>
         </div>

@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 export default function Login(props) {
+    const [showStatus, setShowStatus] = useState(false);
+    const [statusMessage, setStatusMessage] = useState("");
+
     const [user, setUser] = useState({
         userMail: "",
         userPassword: ""
@@ -33,11 +36,18 @@ export default function Login(props) {
                 }
             }
         ).catch((err) => {
+            document.getElementById("loginContainer").style.opacity = "0.25"
+            setShowStatus(true)
+            setTimeout(() => {
+                setShowStatus(false)
+                document.getElementById("loginContainer").style.opacity = "1"
+            }, 2500)
+
             if (err.response.status === 401) {
-                alert("Kullanici adi yada sifre hatali!")
+                setStatusMessage("E-mail adresi yada parola hatalı!")
             }
             else {
-                alert("Giris yapilamiyor!")
+                setStatusMessage("Giris yapilamiyor!")
             }
         })
     }
@@ -48,7 +58,18 @@ export default function Login(props) {
 
     return (
         <div className="container">
-            <div className="row">
+            {
+                showStatus ?
+                <div className="d-flex justify-content-center align-items-center" style={{position: "absolute",zIndex: "1", transform: "translate(-50%, -50%)", top: "50%", left: "50%", width: "90%", height: "90%"}}>
+                    <div className="text-center">
+                        {statusMessage === "Kayıt Başarılı!" ? <i className="fa fa-check-circle-o fa-5x" aria-hidden="true"></i> : <i className="fa fa-times-circle fa-5x" aria-hidden="true"></i>}
+                        <h1>{statusMessage}</h1>
+                    </div>
+                </div> 
+                :
+                null
+            }
+            <div className="row" id='loginContainer'>
                 <div className="col-md-6 mx-auto">
                     <div className='mb-5 mt-5'>
                         <h1 className='text-center'>Giriş Yap</h1>
@@ -67,12 +88,12 @@ export default function Login(props) {
                                 <button type="submit" className="btn btn-primary">Giriş Yap</button>
                             </div>
                             <div className='col-3 mt-1'>
-                                <a onClick={resetPassword} href='#'>Şifremi Unuttum</a>
+                                <a onClick={resetPassword} style={{color: "rgb(102, 178, 255)", fontWeight: 'bold'}} href='#'>Şifremi Unuttum</a>
                             </div>
                         </div>
                         
                         <div className='mb-5 mt-5'>
-                            <span>Üyeliğin yok mu ? <a href="/register">Üye Ol!</a></span>
+                            <span>Üyeliğin yok mu ? <a style={{color: "rgb(102, 178, 255)", fontWeight: 'bold'}} href="/register">Üye Ol!</a></span>
                         </div>
                     </form>
                 </div>

@@ -49,3 +49,43 @@ th {
 .rpv-core__menu-item:hover {
     background-color: rgb(102, 178, 255) !important;
 }
+
+.fa {
+    color: white !important;
+}
+
+.successfulText {
+    color: green !important;
+}
+
+.failedText {
+    color: red !important;
+}
+
+.bootstrapSpinner {
+    color: rgb(102, 178, 255) !important;
+}
+
+.thesisDeatilDiv {
+    border: 2px solid;
+    border-color: rgb(102, 178, 255) !important;
+    border-radius: 7px;
+}
+
+.tezBaslik {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tezBaslikUser {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#showDetailsBtn {
+    background-color: transparent;
+}

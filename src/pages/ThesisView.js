@@ -11,16 +11,30 @@ export default function ThesisView() {
     const { toolbarPluginInstance } = defaultLayoutPlugin()
     const { renderDefaultToolbar, Toolbar } = toolbarPluginInstance;
 
+    const [showDetails, setShowDetails] = useState(false)
     const transform = (slot) => ({
         ...slot,
         // These slots will be empty
         Print: () => <></>,
-        Open: () => <></>,
+        Open: () => <button id='showDetailsBtn' onClick={showDetailsClick} style={{borderRadius: "7px", border: "none"}}>Ayrıntıları Göster</button>,
         Download: () => <></>,
         EnterFullScreen: () => <></>,
         SwitchTheme: () => <></>,
-        Search: () => <></>
+        ShowSearchPopover: () => <></>,
+        ShowPropertiesMenuItem: () => <></>
     });
+
+    async function showDetailsClick() {
+        const showDetailsBtn =  document.getElementById("showDetailsBtn")
+        if (showDetailsBtn.innerText == "Ayrıntıları Göster") {
+            showDetailsBtn.innerText = "Ayrıntıları Gizle"
+            setShowDetails(true)
+        }
+        else {
+            showDetailsBtn.innerText = "Ayrıntıları Göster"
+            setShowDetails(false)
+        }
+    }
 
     const { id } = useParams();
     const isMountedRef = useRef(false);
@@ -48,12 +62,29 @@ export default function ThesisView() {
     <div>
         {isLoading ?
         <div className="d-flex justify-content-center align-items-center" style={{height: "100vh", backgroundColor: "white"}}>
-            <Spinner animation="border" variant="primary" /> 
+            <Spinner animation="border" className='bootstrapSpinner' /> 
         </div>
         :
         <div>
-            <div className='row'>
-
+            <div className='row container mt-3 p-5' style={{display: showDetails ? "flex" : "none"}}>
+                <p className='baslik'>Tez Başlığı</p>
+                <p className='text-capitalize'>{thesisData.thesisTitle}</p>
+                <div className='col-3'>
+                    <p className='baslik'>Yüklenme Tarihi</p>
+                    <p className='text-capitalize'>{thesisData.thesisUploadDate}</p>
+                </div>
+                <div className='col-3'>
+                    <p className='baslik'>Danışman</p>
+                    <p className='text-capitalize'>{thesisData.thesisAdvisor}</p>
+                </div>
+                <div className='col-3'>
+                    <p className='baslik'>Tez Yazılma Yılı</p>
+                    <p className='text-capitalize'>{thesisData.thesisWrittenYear}</p>
+                </div>
+                <div className='col-3'>
+                    <p className='baslik'>Tez Tipi</p>
+                    <p className='text-capitalize'>{thesisData.thesisType.thesisTypeName}</p>
+                </div>
             </div>
             <div className='d-flex flex-column mt-1' style={{overflow: "hidden", height: "90vh"}}>
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js">
