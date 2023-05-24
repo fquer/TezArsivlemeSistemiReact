@@ -54,15 +54,15 @@ export default function ThesisCard(props) {
                     <div className='row'>
                         <div className='col-4'>
                         <p className='baslik mb-0'>Dili</p>
-                            <p className='text-capitalize'>{thesisLanguage}</p>
+                            <p className='text-capitalize text-truncate'>{thesisLanguage}</p>
                         </div>
                         <div className='col-4 px-0'>
                             <p className='baslik mb-0'>Tez Tipi</p>
-                            <p className=" fs-6 text-capitalize">{thesisType}</p>
+                            <p className=" fs-6 text-capitalize text-truncate">{thesisType}</p>
                         </div>
                         <div className='col-4'>
                             <p className='baslik mb-0'>Yazılma Yılı</p>
-                            <p className=" pt-1 fs-6 bold text-capitalize mt-0">{thesisWrittenYear}</p>
+                            <p className=" pt-1 fs-6 bold text-capitalize mt-0 text-truncate">{thesisWrittenYear}</p>
                         </div>
                     </div>
                     <div className='row' style={{zIndex: "1"}}>

@@ -165,19 +165,19 @@ export default function ThesisSearch() {
                             <tbody>
                                 {thesesList.map((key, index) => (
                                     <tr key={index}>
-                                        <td>{key.thesisTitle}</td>
-                                        <td>{key.user.userName + " " + key.user.userSurname}</td>
-                                        <td>{key.thesisUniversity.thesisUniversityName}</td>
-                                        <td>{key.thesisInstitute.thesisInstituteName}</td>
-                                        <td>{key.thesisMainField.thesisMainFieldName}</td>
-                                        <td>{key.thesisChildrenField.thesisChildrenFieldName}</td>
-                                        <td>{key.thesisLanguage.thesisLanguageName}</td>
-                                        <td>{key.thesisGroup.thesisGroupName}</td>
-                                        <td>{key.thesisType.thesisTypeName}</td>
-                                        <td>{key.thesisWrittenYear}</td>
-                                        <td>{moment(key.thesisUploadDate).format('l')}</td>
-                                        <td>{key.thesisAdvisor}</td>
-                                        <td style={{textAlign: "center"}}><a href={"/thesis/" + key.id}><i className="fa fa-file-text" aria-hidden="true"></i></a></td>
+                                        <td className="text-capitalize">{key.thesisTitle}</td>
+                                        <td className="text-capitalize">{key.user.userName + " " + key.user.userSurname}</td>
+                                        <td className="text-capitalize">{key.thesisUniversity.thesisUniversityName}</td>
+                                        <td className="text-capitalize">{key.thesisInstitute.thesisInstituteName}</td>
+                                        <td className="text-capitalize">{key.thesisMainField.thesisMainFieldName}</td>
+                                        <td className="text-capitalize">{key.thesisChildrenField.thesisChildrenFieldName}</td>
+                                        <td className="text-capitalize">{key.thesisLanguage.thesisLanguageName}</td>
+                                        <td className="text-capitalize">{key.thesisGroup.thesisGroupName}</td>
+                                        <td className="text-capitalize">{key.thesisType.thesisTypeName}</td>
+                                        <td className="text-capitalize">{key.thesisWrittenYear}</td>
+                                        <td className="text-capitalize">{moment(key.thesisUploadDate).format('l')}</td>
+                                        <td className="text-capitalize">{key.thesisAdvisor}</td>
+                                        <td className="text-capitalize" style={{textAlign: "center"}}><a href={"/thesis/" + key.id}><i className="fa fa-file-text" aria-hidden="true"></i></a></td>
                                     </tr>
                                 ))}
                             </tbody>

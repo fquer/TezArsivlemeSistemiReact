@@ -70,7 +70,7 @@ export default function ThesisUser() {
                 <h3>Tezlerim</h3>
                 {!isHaveThesis ?
                 <div className="d-flex justify-content-center align-items-center" style={{height: "90vh"}}>
-                    <span style={{fontSize: "25px"}}>Yüklü tez bulunamadı. <a href="/thesis/upload">Tez yükle!</a></span>
+                    <span style={{fontSize: "25px"}}>Yüklü tez bulunamadı. <a href="/thesis/upload" style={{color: "rgb(102, 178, 255)", fontWeight: "700"}}>Tez yükle!</a></span>
                 </div>
                 :
                 isLoading ? 

@@ -42,7 +42,6 @@ export default function ThesisUpload() {
                     updatedThesis["thesisTitle"] = response.data.thesisTitle
                     updatedThesis["thesisWrittenYear"] = response.data.thesisWrittenYear
                     updatedThesis["thesisAdvisor"] = response.data.thesisAdvisor.split('-')[1].trim()
-
                     setThesis(updatedThesis)
                     setIsHaveDefaultValue(true)
                 }
@@ -77,10 +76,12 @@ export default function ThesisUpload() {
         if (e.target.checked) {
             fileLabel.innerHTML = "Dosya Seçiniz"
             fileInput.disabled = false
+            fileInput.style.opacity = "1"
         }
         else {
             fileLabel.innerHTML = "Tez Dosyasını Değiştir"
             fileInput.disabled = true
+            fileInput.style.opacity = "0.25"
         }
     }
     
@@ -183,7 +184,7 @@ export default function ThesisUpload() {
                                     <div className="col-6">
                                         <label id="fileInputLabel" className="form-label">{id ? "Tez Dosyasını Değiştir" : "Dosya Seçiniz"}</label>
                                         { id ? <input type="checkbox" id="fileCheckbox" className="m-2" onChange={(e) => handleFileCheckbox(e)}/> : null }
-                                        <input type="file" className="form-control" id="fileInput" name='thesisFile' onChange={(e) => handleFileInputChange(e)} required={id ? false : true} disabled={id ? true : false} />
+                                        <input type="file" className="form-control" id="fileInput" name='thesisFile' onChange={(e) => handleFileInputChange(e)} required={id ? false : true} disabled={id ? true : false} style={{opacity: id ? "0.25" : "1"}}/>
                                     </div>
                                     
                                 </div>

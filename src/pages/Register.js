@@ -11,7 +11,6 @@ export default function Register() {
         userName: "",
         userSurname: "",
         userMail: "",
-        userTypeId: "6435eca14a91c114ab19f92f",
         userPassword: ""
     })
 
